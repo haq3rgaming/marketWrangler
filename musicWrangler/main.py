@@ -18,12 +18,13 @@ class musicWrangler(commands.Bot):
         print(f'{wrangler.user} has connected to Discord!')
     
     @app_commands.command(name = "wakeup", description = "My first application Command")
-    async def wakeup(self, interaction, custom: str):
+    async def wakeupmain(self, interaction, custom: str):
         await interaction.response.send_message(f"I'm awake!\nCustom: {custom}")
 
     @app_commands.command(name="debug", description="Debug command")
     async def debug(self, interaction):
-        await interaction.response.send_message(f"Debug command")
+        syncOutput = await wrangler.tree.sync()
+        await interaction.response.send_message(f"{syncOutput}")
 
 wrangler = musicWrangler()
 
