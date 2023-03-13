@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 #API Keys
-api_keys.py
+./musicWrangler/api_keys.py
 
 # Distribution / packaging
 .Python
