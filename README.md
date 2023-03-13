@@ -1,2 +1,2 @@
-# musicWrangler
+# Music Wrangler
 Private music discord bot
