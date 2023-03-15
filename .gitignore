@@ -7,7 +7,10 @@ __pycache__/
 *.so
 
 #API Keys
-apiKeys.py
+botConfig.py
+
+#Youtube data
+ytData/
 
 # Distribution / packaging
 .Python
