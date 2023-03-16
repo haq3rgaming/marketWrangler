@@ -2,7 +2,6 @@ import os
 
 import discord
 from discord.ext import commands
-from discord import app_commands
 
 from botConfig import *
 
@@ -38,17 +37,20 @@ async def stats(interaction):
     if interaction.author.id == ownerID and isinstance(interaction.channel, discord.DMChannel):
         serverCount = len(wrangler.guilds)
         memberCount = len(set(wrangler.get_all_members()))
-        fileSize = get_size(r".\ytData")
-        await interaction.channel.send(f"Server Count: {serverCount}\nMember Count: {memberCount}\nFile Size: {round(fileSize / 1040400, 2)}MB")
+        fileSize = round(get_size(r".\ytData") / 1040400, 2)
+        fileCount = len(os.listdir(r".\ytData"))
+        embed = discord.Embed(title="Bot stats", color=0x00ff00)
+        embed.add_field(name="Server info:", value=f"Server count: {serverCount}\nTotal members: {memberCount}", inline=False)
+        embed.add_field(name="File system:", value=f"Music file count: {fileCount}\nTotal music file size: {fileSize} MB", inline=False)
+        await interaction.channel.send(embed=embed)
     else: pass
 
 #slash commands sync
 @wrangler.command(name="sync", description="Syncs the bot commands")
 async def sync(interaction):
     if interaction.author.id == ownerID and isinstance(interaction.channel, discord.DMChannel):
-        await interaction.channel.send("Syncing...")
         await wrangler.tree.sync()
-        await interaction.channel.send("Done!")
+        await interaction.message.add_reaction("✅")
     else: pass
 
 #run the bot

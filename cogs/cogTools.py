@@ -38,6 +38,3 @@ class cogTools(commands.Cog):
         for cog in reloadableCogs:
             await self.bot.reload_extension(f"cogs.{cog}") 
         await interaction.channel.send(f"Reloaded {len(reloadableCogs)} cogs")
-    
-
-    

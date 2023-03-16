@@ -17,13 +17,10 @@ tracemalloc.start()
 class playerButtons(discord.ui.View):
     def __init__(self, manager):
         super().__init__()
-        self.lastButtonPressed = "play"
         self.manager = manager
     
     @discord.ui.button(label="Play", style=discord.ButtonStyle.gray, emoji="▶️")
     async def playButton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self.lastButtonPressed = "play"
-        if self.lastButtonPressed == "play" or self.lastButtonPressed == "stop": button.disabled = True
         voiceClient = interaction.guild.voice_client
         if voiceClient:
             if voiceClient.is_paused():
@@ -35,8 +32,6 @@ class playerButtons(discord.ui.View):
     
     @discord.ui.button(label="Pause", style=discord.ButtonStyle.grey, emoji="⏸️")
     async def pauseButton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self.lastButtonPressed = "pause"
-        if self.lastButtonPressed == "play" or self.lastButtonPressed == "pause": button.disabled = True
         voiceClient = interaction.guild.voice_client
         if voiceClient:
             if voiceClient.is_playing():
@@ -48,8 +43,6 @@ class playerButtons(discord.ui.View):
     
     @discord.ui.button(label="Stop", style=discord.ButtonStyle.gray, emoji="⏹️")
     async def stopButton(self, interaction: discord.Interaction, button: discord.ui.Button):
-        self.lastButtonPressed = "stop"
-        if self.lastButtonPressed == "stop": button.disabled = True
         voiceClient = interaction.guild.voice_client
         if voiceClient:
             if voiceClient.is_playing():
@@ -69,18 +62,7 @@ class queueButtons(discord.ui.View):
         self.manager = manager
         self.repeatEmojis = {0: "🚫", 1: "🔂", 2: "🔁"}
         self.repeatLabels = {0: "No Repeat", 1: "Repeat One", 2: "Repeat All"}
-        self.currentRepeat = 0
-    
-    @discord.ui.button(label="Next", style=discord.ButtonStyle.gray, emoji="⏭️")
-    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        voiceClient = interaction.guild.voice_client
-        if voiceClient:
-            voiceClient.stop()
-            await self.manager(interaction.guild.id, command="next")
-            await interaction.response.edit_message(view=self)
-        else:
-            embed = discord.Embed(title="Music Player", description="Not in voice chat", color=0x00ff00)
-            await interaction.response.edit_message(embed=embed)
+        self.currentRepeat = 2
     
     @discord.ui.button(label="Previous", style=discord.ButtonStyle.grey, emoji="⏮️")
     async def previous(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -92,8 +74,19 @@ class queueButtons(discord.ui.View):
         else:
             embed = discord.Embed(title="Music Player", description="Not in voice chat", color=0x00ff00)
             await interaction.response.edit_message(embed=embed)
+
+    @discord.ui.button(label="Next", style=discord.ButtonStyle.gray, emoji="⏭️")
+    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+        voiceClient = interaction.guild.voice_client
+        if voiceClient:
+            voiceClient.stop()
+            await self.manager(interaction.guild.id, command="next", ignoreNext=True)
+            await interaction.response.edit_message(view=self)
+        else:
+            embed = discord.Embed(title="Music Player", description="Not in voice chat", color=0x00ff00)
+            await interaction.response.edit_message(embed=embed)
     
-    @discord.ui.button(label="No Repeat", style=discord.ButtonStyle.gray, emoji="🚫")
+    @discord.ui.button(label="Repeat All", style=discord.ButtonStyle.gray, emoji="🔁")
     async def repeat(self, interaction: discord.Interaction, button: discord.ui.Button):
         voiceClient = interaction.guild.voice_client
         if voiceClient:
@@ -129,32 +122,44 @@ class musicPlayer(commands.Cog):
             self.guildID = guildID
             self.queue = []
             self.position = 0
-            self.repeat = 0 # 0 - off, 1 - repeat one, 2 - repeat all
-            self.ignoreNext = False
+            self.repeat = 2 # 0 - off, 1 - repeat one, 2 - repeat all
+            self.ignoreNext = True
             self.canPlay = True
 
         def __iter__(self): return self.queue
         def __len__(self): return len(self.queue)
 
-        def append(self, track): self.queue.append(track)
+        def append(self, track):
+            self.queue.append(track)
+            self.canPlay = True
         def clear(self): self.queue = []
         def pop(self, track): self.queue.pop(track)
-        def getCurrentTrack(self): return self.queue[self.position]
+        def getCurrentTrack(self):
+            if self.position >= len(self.queue):
+                if self.repeat == 0: self.canPlay = False
+                if self.repeat == 2: self.position = 0; self.canPlay = True
+                return None
+            return self.queue[self.position]
 
         def next(self):
-            if self.ignoreNext: self.ignoreNext = False; return
-            if self.repeat == 1: return
-            if self.repeat != 1: self.position += 1
-            if self.repeat == 2 and self.position >= len(self.queue): self.position = 0
-            if self.position == 0: self.canPlay = True
-            if self.repeat == 2 and self.position < 0: self.position = len(self.queue) - 1
-            if self.repeat == 0 and self.position >= len(self.queue): self.canPlay = False
+            if self.ignoreNext: self.ignoreNext = False
+            elif self.repeat == 1: self.canPlay = True
+            elif self.position >= len(self.queue):
+                if self.repeat == 0: self.canPlay = False
+                if self.repeat == 2: self.position = 0; self.canPlay = True
+            else:
+                self.position += 1
+                self.canPlay = True
         
         def previous(self, ignoreNext):
             self.ignoreNext = ignoreNext
-            if self.repeat != 1: self.position -= 1
-            if self.position < 0 and self.repeat == 2:
-                self.position = len(self.queue) - 1
+            if self.repeat == 1: pass
+            elif self.position <= 0:
+                if self.repeat == 0: self.canPlay = False
+                if self.repeat == 2: self.position = len(self.queue) - 1
+            else:
+                self.position -= 1
+                self.canPlay = True
         
         def repeatCycle(self, repeat):
             if repeat in (0, 1, 2): self.repeat = repeat
@@ -164,7 +169,9 @@ class musicPlayer(commands.Cog):
         if guildID not in self.queues: self.queues[guildID] = self.queue(guildID)
         if command == "get": return self.queues[guildID].getCurrentTrack()
         elif command == "add": self.queues[guildID].append(self.track(*self.getYouTubeVideoData(trackID)))
-        elif command == "clear": self.queues[guildID].clear()
+        elif command == "clear":
+            self.queues[guildID].clear()
+            self.queues[guildID].position = 0
         elif command == "remove": self.queues[guildID].pop(track)
         elif command == "next": self.queues[guildID].next()
         elif command == "previous": self.queues[guildID].previous(ignoreNext)
@@ -197,6 +204,7 @@ class musicPlayer(commands.Cog):
         return None, None, None, None
 
     @app_commands.command(name = "play", description = "Plays a song from Wrangler")
+    @app_commands.describe(search="Search for song on YouTube")
     async def play(self, interaction, search: str):
         voiceClient = interaction.guild.voice_client
         if interaction.user.voice is None:
@@ -210,14 +218,25 @@ class musicPlayer(commands.Cog):
             if voiceClient is None: await interaction.user.voice.channel.connect()
             else: await voiceClient.move_to(interaction.user.voice.channel)
         
-        songLinkID = self.check_link(search)
-        _, _, title, _ = self.getYouTubeVideoData(songLinkID)
-        if title == None: interaction.edit_original_response("Failed to get video, try again later"); return
+        if voiceClient:
+            if voiceClient.is_playing() or voiceClient.is_paused():
+                currentTrack = await self.queueManager(interaction.guild.id, "get")
+                title = currentTrack.title
+            else:
+                embed = discord.Embed(title="Music Player", description="Currently playing: Nothing", color=0x00ff00)
+                await interaction.edit_original_response(embed=embed); return
+        else:
+            songLinkID = self.check_link(search)
+            _, _, title, _ = self.getYouTubeVideoData(songLinkID)
+            if title == None: interaction.edit_original_response("Failed to get video, try again later"); return
         
         if voiceClient:
             if (voiceClient.is_playing() or voiceClient.is_paused()):
                 embed = discord.Embed(title="Music Player", description=f"Added {title} to queue", color=0x00ff00)
                 await interaction.edit_original_response(embed=embed)
+            else:
+                embed = discord.Embed(title="Music Player", description=f"Currently playing: {title} ", color=0x00ff00)
+                await interaction.edit_original_response(embed=embed, view=playerButtons(self.queueManager))
         else:
             embed = discord.Embed(title="Music Player", description=f"Currently playing: {title} ", color=0x00ff00)
             await interaction.edit_original_response(embed=embed, view=playerButtons(self.queueManager))
@@ -244,8 +263,18 @@ class musicPlayer(commands.Cog):
     
     @app_commands.command(name="player", description="Shows the music player")
     async def player(self, interaction):
-        embed = discord.Embed(title="Music Player", description="This is a simple music player", color=0x00ff00)
-        await interaction.response.send_message(embed=embed, view=playerButtons(self.queueManager))
+        if interaction.guild.voice_client is None:
+            await interaction.response.send_message("I am not in a voice channel")
+            return
+        else:
+            if interaction.guild.voice_client.is_playing() or interaction.guild.voice_client.is_paused():
+                song = await self.queueManager(interaction.guild.id, "get")
+                title = song.title
+            else:
+                await interaction.response.send_message("No song is currently playing")
+                return
+            embed = discord.Embed(title="Music Player", description=f"Currently playing: {title} ", color=0x00ff00)
+            await interaction.response.send_message(embed=embed, view=playerButtons(self.queueManager))
     
     @app_commands.command(name = "queue", description = "Shows the current queue")
     async def queueCommand(self, interaction):
@@ -272,18 +301,19 @@ class musicPlayer(commands.Cog):
             filePath = rf".\ytData\{url}.webm"
             if not os.path.isfile(filePath):
                 try:
-                    yt = YouTube("https://www.youtube.com/watch?v=" + url)
                     bold = "\033[1m"
                     normal = "\033[0m"
                     print(f"{Fore.LIGHTBLACK_EX}{bold}{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{normal} {Fore.BLUE}{Style.BRIGHT}INFO", end=f"     {Style.RESET_ALL}")
-                    print(f"{Fore.MAGENTA}{normal}Downloading{Style.RESET_ALL} {yt.title} with id {url}", end=" | ")
+                    print(f"{Fore.MAGENTA}{normal}Downloading{Style.RESET_ALL} {url}", end=" | ")
+                    yt = YouTube("https://www.youtube.com/watch?v=" + url)
                     yt.streams.filter(only_audio=True, mime_type="audio/webm")[0].download(filename=filePath)
                     self.aviableSongFiles.append(f"{url}.webm")
                     self.downloadQueue.pop(0)
-                    print(f"Done!")
+                    print(f"Downloaded {yt.title}")
                 except:
-                    print(f"{Fore.LIGHTBLACK_EX}{bold}{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{normal} {Fore.RED}{Style.BRIGHT}ERROR", end=f"    {Style.RESET_ALL}")
-                    print(f"Failed to download {url}")
+                    print(f"{Fore.RED}{Style.BRIGHT}ERROR", end=f"{Style.RESET_ALL}")
+            else:
+                self.downloadQueue.pop(0)
 
     @tasks.loop(seconds=2)
     async def autoplay(self):
@@ -294,6 +324,7 @@ class musicPlayer(commands.Cog):
                     if voiceClient:
                         if not voiceClient.is_playing() and not voiceClient.is_paused():
                             track = await self.queueManager(guildID, command="get")
+                            if track == None: continue
                             while True:
                                 if f"{track.YouTubeID}.webm" in self.aviableSongFiles: break
                                 if track.YouTubeID not in self.downloadQueue: self.downloadQueue.append(track.YouTubeID)
