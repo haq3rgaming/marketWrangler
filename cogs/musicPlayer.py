@@ -221,7 +221,9 @@ class musicPlayer(commands.Cog):
         if voiceClient:
             if voiceClient.is_playing() or voiceClient.is_paused():
                 currentTrack = await self.queueManager(interaction.guild.id, "get")
-                title = currentTrack.title
+                if currentTrack: title = currentTrack.title
+                else: title = "Nothing"
+                
             else:
                 embed = discord.Embed(title="Music Player", description="Currently playing: Nothing", color=0x00ff00)
                 await interaction.edit_original_response(embed=embed); return
