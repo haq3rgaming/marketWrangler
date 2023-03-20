@@ -13,6 +13,9 @@ import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter as df, MinuteLocator as ml
 import io
 
+import tracemalloc
+tracemalloc.start()
+
 aviableCommodities = json.load(open(r"database\commodities.json", "r"))
 selectOptions = [discord.SelectOption(label=aviableCommodities[i], value=i) for i in aviableCommodities.keys()]
 selectOptions.insert(0, discord.SelectOption(label="All", value="all"))
@@ -109,12 +112,9 @@ class eliteData(commands.Cog):
     
     def createTableFromCommodityData(self, selectedResources):
         headers = ["Name", "Price", "Station", "System"]
-        commodityData = []
-        for id in selectedResources:
-                commodityData.append([*self.scrapePriceFromEDDB(id)])
         dataTable = t2a.table2ascii(
             header=headers,
-            body=commodityData,
+            body=[self.scrapePriceFromEDDB(id) for id in selectedResources],
             alignments=[0,0,0,0],
         )
         return dataTable
@@ -164,7 +164,6 @@ class eliteData(commands.Cog):
         return buf
 
     @app_commands.command(name="commodity", description="Shows the commodity data from EDDB.IO")
-    @isApprovedGuild()
     async def commodity(self, interaction):
         await interaction.response.defer()
         async def commoditySelectCallback(interaction):
@@ -197,26 +196,14 @@ class eliteData(commands.Cog):
             await interaction.response.send_message("Something went wrong!", ephemeral=True)
     
     @app_commands.command(name="update", description="Updates the commodity data")
-    @isApprovedGuild()
     async def update(self, interaction):
         await interaction.response.defer()
         #remove last message
         channel = self.bot.get_channel(interaction.channel_id)
         await interaction.followup.send(content="Updating data ...")
         #update data
-        data = []
-        for id in aviableCommodities.keys():
-            commodityData = self.mainDatabase.getLatest(id)[0]
-            data.append([
-                aviableCommodities[id],
-                commodityData["price"],
-                commodityData["station"],
-                commodityData["system"]])
-        dataTable = t2a.table2ascii(
-            header=["Name", "Price", "Station", "System"],
-            body=data,
-            alignments=[0,0,0,0]
-        )
+        dataTable = self.createTableFromCommodityData(aviableCommodities.keys())
+      
         if self.guildInfoDatabase.exists(str(interaction.guild_id)):
             channelID = self.guildInfoDatabase.get(str(interaction.guild_id))["updateChannelID"]
             messageID = self.guildInfoDatabase.get(str(interaction.guild_id))["updateMessageID"]
@@ -236,7 +223,6 @@ class eliteData(commands.Cog):
             await interaction.response.send_message("Something went wrong!", ephemeral=True)
 
     @app_commands.command(name="setupdatechannel", description="Sets the channel where the update command will post the data")
-    @isApprovedGuild()
     async def setUpdateChannel(self, interaction):
         await interaction.response.defer()
         await interaction.edit_original_response(content="Set update channel to this channel!", embed=None, view=None)
@@ -247,7 +233,6 @@ class eliteData(commands.Cog):
         await interaction.delete_original_response()
 
     @app_commands.command(name="graph", description="Shows the graph of a commodity/commodities")
-    @isApprovedGuild()
     async def graph(self, interaction):
         async def graphSelectCallback(interaction):
             await interaction.response.defer()
@@ -271,7 +256,7 @@ class eliteData(commands.Cog):
 
         await interaction.edit_original_response(embed=embed, view=view)
 
-    @tasks.loop(hours=1)
+    @tasks.loop(hours=1, reconnect=True)
     async def updateCommodityDatabase(self):
         if self.updating: return
         self.updating = True

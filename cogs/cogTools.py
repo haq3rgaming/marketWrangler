@@ -1,8 +1,9 @@
 from discord.ext import commands
-from discord import app_commands
-import discord
 import os
 from botConfig import *
+
+import tracemalloc
+tracemalloc.start()
 
 async def setup(bot):
     print("Loaded cog: cogTools")

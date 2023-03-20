@@ -5,6 +5,9 @@ from discord.ext import commands
 
 from botConfig import *
 
+import tracemalloc
+tracemalloc.start()
+
 def get_size(start_path = '.'):
     total_size = 0
     for dirpath, dirnames, filenames in os.walk(start_path):
