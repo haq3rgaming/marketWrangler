@@ -206,15 +206,16 @@ class musicPlayer(commands.Cog):
     @app_commands.command(name = "play", description = "Plays a song from Wrangler")
     @app_commands.describe(search="Search for song on YouTube")
     async def play(self, interaction, search: str):
+        await interaction.response.defer()
         voiceClient = interaction.guild.voice_client
         if interaction.user.voice is None:
-            await interaction.response.send_message("You are not in a voice channel")
+            await interaction.edit_original_response("You are not in a voice channel")
             return
         else:
             if voiceClient: embedDescription = f"Currently in {interaction.user.voice.channel.name}"
             else: embedDescription = f"Joined {interaction.user.voice.channel.name}"
             embed = discord.Embed(title="Music Player", description=embedDescription)
-            await interaction.response.send_message(embed=embed)
+            await interaction.edit_original_response(embed=embed)
             if voiceClient is None: await interaction.user.voice.channel.connect()
             else: await voiceClient.move_to(interaction.user.voice.channel)
         
@@ -226,11 +227,14 @@ class musicPlayer(commands.Cog):
                 
             else:
                 embed = discord.Embed(title="Music Player", description="Currently playing: Nothing", color=0x00ff00)
-                await interaction.edit_original_response(embed=embed); return
+                await interaction.edit_original_response(embed=embed)
+                return
         else:
             songLinkID = self.check_link(search)
             _, _, title, _ = self.getYouTubeVideoData(songLinkID)
-            if title == None: interaction.edit_original_response("Failed to get video, try again later"); return
+            if title == None:
+                interaction.edit_original_response("Failed to get video, try again later")
+                return
         
         if voiceClient:
             if (voiceClient.is_playing() or voiceClient.is_paused()):
@@ -280,11 +284,12 @@ class musicPlayer(commands.Cog):
     
     @app_commands.command(name = "queue", description = "Shows the current queue")
     async def queueCommand(self, interaction):
+        await interaction.response.defer()
         if interaction.guild.id not in self.queues:
-            await interaction.response.send_message("No queue")
+            await interaction.edit_original_response("No queue")
         else:
             if len(self.queues[interaction.guild.id]) == 0:
-                await interaction.response.send_message("No queue")
+                await interaction.edit_original_response("No queue")
             else:
                 embed = discord.Embed(title="Queue", color=0x00ff00)
                 guildQueue = self.queues[interaction.guild.id].queue
@@ -294,7 +299,7 @@ class musicPlayer(commands.Cog):
                     fieldName = f"{trackCount+1}. {title}"
                     fieldValue = f"Duration: {length // 60}:{str(length % 60).zfill(2)}"
                     embed.add_field(name=fieldName, value=fieldValue, inline=False)
-                await interaction.response.send_message(embed=embed, view=queueButtons(self.queueManager))
+                await interaction.edit_original_response(embed=embed, view=queueButtons(self.queueManager))
 
     @tasks.loop(seconds=1)
     async def downloadAudio(self):
@@ -306,7 +311,7 @@ class musicPlayer(commands.Cog):
                     bold = "\033[1m"
                     normal = "\033[0m"
                     print(f"{Fore.LIGHTBLACK_EX}{bold}{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{normal} {Fore.BLUE}{Style.BRIGHT}INFO", end=f"     {Style.RESET_ALL}")
-                    print(f"{Fore.MAGENTA}{normal}Downloading{Style.RESET_ALL} {url}", end=" | ")
+                    print(f"{normal}{Fore.MAGENTA}Downloading{Style.RESET_ALL} {url}", end=" | ")
                     yt = YouTube("https://www.youtube.com/watch?v=" + url)
                     yt.streams.filter(only_audio=True, mime_type="audio/webm")[0].download(filename=filePath)
                     self.aviableSongFiles.append(f"{url}.webm")

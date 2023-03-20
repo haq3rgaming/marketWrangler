@@ -1,0 +1,248 @@
+{
+    "350": [
+        {
+            "timestamp": 1679222908,
+            "price": 526589,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679232755,
+            "price": 520813,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679233447,
+            "price": 516428,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679237618,
+            "price": 515572,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679243537,
+            "price": 499293,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679249438,
+            "price": 501026,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679249825,
+            "price": 498352,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 474749,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        }
+    ],
+    "349": [
+        {
+            "timestamp": 1679249825,
+            "price": 379388,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 559762,
+            "station": "Stross Hub",
+            "system": "Xinca"
+        }
+    ],
+    "348": [
+        {
+            "timestamp": 1679310342,
+            "price": 491309,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        }
+    ],
+    "347": [
+        {
+            "timestamp": 1679243537,
+            "price": 532817,
+            "station": "Faraday Enterprise",
+            "system": "Kokary"
+        },
+        {
+            "timestamp": 1679249825,
+            "price": 528347,
+            "station": "Faraday Enterprise",
+            "system": "Kokary"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 511844,
+            "station": "Faraday Enterprise",
+            "system": "Kokary"
+        }
+    ],
+    "346": [
+        {
+            "timestamp": 1679237618,
+            "price": 605048,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        },
+        {
+            "timestamp": 1679249825,
+            "price": 603721,
+            "station": "Lyne Vision",
+            "system": "Nyalayan"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 605566,
+            "station": "Pausch City",
+            "system": "Eme"
+        }
+    ],
+    "345": [
+        {
+            "timestamp": 1679237618,
+            "price": 774623,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 756043,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        }
+    ],
+    "344": [
+        {
+            "timestamp": 1679310342,
+            "price": 498024,
+            "station": "Rubin Orbital",
+            "system": "Nyalayan"
+        }
+    ],
+    "343": [
+        {
+            "timestamp": 1679222908,
+            "price": 716888,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679237618,
+            "price": 714807,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679243537,
+            "price": 709686,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679249438,
+            "price": 708405,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679249825,
+            "price": 704244,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 696081,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
+        }
+    ],
+    "276": [
+        {
+            "timestamp": 1679249825,
+            "price": 349591,
+            "station": "Fernandez Station",
+            "system": "Prahasi"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 353961,
+            "station": "Piccard Dock",
+            "system": "Orishis"
+        }
+    ],
+    "267": [
+        {
+            "timestamp": 1679310342,
+            "price": 212685,
+            "station": "Ramos's View",
+            "system": "LHS 20"
+        }
+    ],
+    "106": [
+        {
+            "timestamp": 1679310342,
+            "price": 203388,
+            "station": "Ramos's View",
+            "system": "LHS 20"
+        }
+    ],
+    "83": [
+        {
+            "timestamp": 1679236655,
+            "price": 242975,
+            "station": "Edgeworth Gateway",
+            "system": "Daiti"
+        },
+        {
+            "timestamp": 1679237618,
+            "price": 236296,
+            "station": "Edgeworth Gateway",
+            "system": "Daiti"
+        },
+        {
+            "timestamp": 1679242956,
+            "price": 234222,
+            "station": "Edgeworth Gateway",
+            "system": "Daiti"
+        },
+        {
+            "timestamp": 1679243537,
+            "price": 232898,
+            "station": "Edgeworth Gateway",
+            "system": "Daiti"
+        },
+        {
+            "timestamp": 1679248762,
+            "price": 233424,
+            "station": "Edgeworth Gateway",
+            "system": "Daiti"
+        },
+        {
+            "timestamp": 1679249825,
+            "price": 230186,
+            "station": "Edgeworth Gateway",
+            "system": "Daiti"
+        },
+        {
+            "timestamp": 1679310342,
+            "price": 217952,
+            "station": "Guth Vision",
+            "system": "Lescherty"
+        }
+    ]
+}

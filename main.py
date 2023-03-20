@@ -15,7 +15,7 @@ def get_size(start_path = '.'):
                 total_size += os.path.getsize(fp)
     return total_size
 
-class musicWrangler(commands.Bot):
+class marketWrangler(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="!", intents=discord.Intents.all())
     
@@ -24,7 +24,7 @@ class musicWrangler(commands.Bot):
         cogs = [i[:-3] for i in os.listdir(r".\cogs") if i.endswith(".py")]
         for cog in cogs: await wrangler.load_extension(f"cogs.{cog}")
 
-wrangler = musicWrangler()
+wrangler = marketWrangler()
 
 #ping
 @wrangler.command(name="ping", description="Pings the bot")
@@ -39,9 +39,10 @@ async def stats(interaction):
         memberCount = len(set(wrangler.get_all_members()))
         fileSize = round(get_size(r".\ytData") / 1040400, 2)
         fileCount = len(os.listdir(r".\ytData"))
+        databaseSize = round(get_size(r".\database") / 1024, 2)
         embed = discord.Embed(title="Bot stats", color=0x00ff00)
         embed.add_field(name="Server info:", value=f"Server count: {serverCount}\nTotal members: {memberCount}", inline=False)
-        embed.add_field(name="File system:", value=f"Music file count: {fileCount}\nTotal music file size: {fileSize} MB", inline=False)
+        embed.add_field(name="File system:", value=f"Music file count: {fileCount}\nTotal music file size: {fileSize} MB\nDatabase size: {databaseSize} kB", inline=False)
         await interaction.channel.send(embed=embed)
     else: pass
 
