@@ -10,7 +10,7 @@ import time, datetime
 from botConfig import *
 from colorama import Fore, Back, Style
 import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter as df
+from matplotlib.dates import DateFormatter as df, MinuteLocator as ml
 import io
 
 aviableCommodities = json.load(open(r"database\commodities.json", "r"))
@@ -20,7 +20,8 @@ selectOptions.insert(0, discord.SelectOption(label="All", value="all"))
 plt.rcParams["figure.figsize"] = [7.5, 5]
 plt.rcParams["figure.autolayout"] = True
 plt.grid(True)
-xfmt = df("%d-%m\n%H:%M")
+xfmt = df("%H:00")
+xfml = ml(interval=60)
 plotFont = {"family": "Consolas", "size": 14}
 
 class database(object):
@@ -120,24 +121,40 @@ class eliteData(commands.Cog):
 
     def createGraphFromCommodityData(self, commodities):
         ax = plt.gca()
+
         ax.xaxis.set_major_formatter(xfmt)
+        ax.xaxis.set_major_locator(xfml)
+        
+        #set rotation for x axis
+        plt.xticks(rotation=90, **{"family": "Consolas", "size": 10})
+        plt.yticks(**{"family": "Consolas", "size": 10})
+
+        unixTimeOfData = []
 
         for id in commodities:
-            x, y = [], []
             latestData = self.mainDatabase.getLatest(id, -5)
+            x, y = [], []
+            
             for record in latestData:
+                unixTimeOfData.append(record["timestamp"])
                 x.append(datetime.datetime.fromtimestamp(record["timestamp"]))
                 y.append(record["price"])
-            #for i, item in enumerate(x): plt.annotate(f"{y[i]} Cr", (x[i], y[i]), **{"family": "Consolas", "size": 10})
+           
+            #add annotations
+            plt.annotate(f"{y[0]} Cr", (x[0], y[0]), **{"family": "Consolas", "size": 10})
+            plt.annotate(f"{y[-1]} Cr", (x[-1], y[-1]), **{"family": "Consolas", "size": 10})
+
+            #plot data
             plt.plot(x, y, label=aviableCommodities[id])
-            plt.scatter(x, y)
+            plt.scatter(x, y, s=5)
 
-            #set font for graph
-            for tick in ax.get_xticklabels():
-                tick.set_fontname("Consolas")
-            for tick in ax.get_yticklabels():
-                tick.set_fontname("Consolas")
+        #set graph properties
+        timeFrom = time.strftime("%d/%m/%Y", time.localtime(min(unixTimeOfData)))
+        timeTo = time.strftime("%d/%m/%Y", time.localtime(max(unixTimeOfData)))
 
+        plt.title("Commodity Prices", **plotFont)
+        plt.xlabel(f"Time({timeFrom} to {timeTo})", **plotFont)
+        plt.ylabel("Price", **plotFont)
         plt.legend()
 
         #save graph to buffer

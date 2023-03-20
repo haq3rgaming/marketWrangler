@@ -43,7 +43,7 @@
             "system": "TZ Arietis"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 474749,
             "station": "Rubin Orbital",
             "system": "Nyalayan"
@@ -57,7 +57,7 @@
             "system": "Nyalayan"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 559762,
             "station": "Stross Hub",
             "system": "Xinca"
@@ -65,7 +65,7 @@
     ],
     "348": [
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 491309,
             "station": "Rubin Orbital",
             "system": "Nyalayan"
@@ -85,7 +85,7 @@
             "system": "Kokary"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 511844,
             "station": "Faraday Enterprise",
             "system": "Kokary"
@@ -105,7 +105,7 @@
             "system": "Nyalayan"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 605566,
             "station": "Pausch City",
             "system": "Eme"
@@ -119,7 +119,7 @@
             "system": "Nyalayan"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 756043,
             "station": "Rubin Orbital",
             "system": "Nyalayan"
@@ -127,7 +127,7 @@
     ],
     "344": [
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 498024,
             "station": "Rubin Orbital",
             "system": "Nyalayan"
@@ -169,6 +169,12 @@
             "price": 696081,
             "station": "Snyder Enterprise",
             "system": "TZ Arietis"
+        },
+        {
+            "timestamp": 1679320410,
+            "price": 692400,
+            "station": "Snyder Enterprise",
+            "system": "TZ Arietis"
         }
     ],
     "276": [
@@ -179,7 +185,7 @@
             "system": "Prahasi"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 353961,
             "station": "Piccard Dock",
             "system": "Orishis"
@@ -187,7 +193,7 @@
     ],
     "267": [
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 212685,
             "station": "Ramos's View",
             "system": "LHS 20"
@@ -195,7 +201,7 @@
     ],
     "106": [
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320410,
             "price": 203388,
             "station": "Ramos's View",
             "system": "LHS 20"
@@ -239,10 +245,16 @@
             "system": "Daiti"
         },
         {
-            "timestamp": 1679310342,
+            "timestamp": 1679320182,
             "price": 217952,
             "station": "Guth Vision",
             "system": "Lescherty"
+        },
+        {
+            "timestamp": 1679320410,
+            "price": 238288,
+            "station": "Cseszneky Ring",
+            "system": "Obato"
         }
     ]
 }
