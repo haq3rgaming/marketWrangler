@@ -12,6 +12,7 @@ from colorama import Fore, Back, Style
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter as df, MinuteLocator as ml
 import io
+import logFunctions as log
 
 import tracemalloc
 tracemalloc.start()
@@ -123,10 +124,11 @@ class eliteData(commands.Cog):
         ax = plt.gca()
 
         ax.xaxis.set_major_formatter(xfmt)
-        ax.xaxis.set_major_locator(xfml)
+        #ax.xaxis.set_major_locator(xfml)
         
         #set rotation for x axis
-        plt.xticks(rotation=90, **{"family": "Consolas", "size": 10})
+        #plt.xticks(rotation=90, **{"family": "Consolas", "size": 10})
+        plt.xticks(**{"family": "Consolas", "size": 10})
         plt.yticks(**{"family": "Consolas", "size": 10})
 
         unixTimeOfData = []
@@ -200,7 +202,7 @@ class eliteData(commands.Cog):
         await interaction.response.defer()
         #remove last message
         channel = self.bot.get_channel(interaction.channel_id)
-        await interaction.followup.send(content="Updating data ...")
+        await interaction.followup.send(content="Updating data...")
         #update data
         dataTable = self.createTableFromCommodityData(aviableCommodities.keys())
       
@@ -241,7 +243,7 @@ class eliteData(commands.Cog):
             else:
                 selectedResources = select.values
                 if "all" in selectedResources: selectedResources.remove("all")
-            await interaction.edit_original_response(content="Generating graph ...", embed=None, view=None)
+            await interaction.edit_original_response(content="Generating graph...", embed=None, view=None)
             graphImage = self.createGraphFromCommodityData(selectedResources)
             graphFile = discord.File(graphImage, filename="graph.png")
             await interaction.edit_original_response(content=None, embed=None, view=None, attachments=[graphFile])
@@ -282,11 +284,8 @@ class eliteData(commands.Cog):
         
         self.latestUpdate = time.localtime()
         self.updating = False
-        bold = '\033[1m'
-        normal = "\033[0m"
-        print(f"{Fore.LIGHTBLACK_EX}{bold}{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{normal} {Fore.BLUE}{Style.BRIGHT}INFO", end=f"     {Style.RESET_ALL}")
-        print(f"{normal}{Fore.MAGENTA}database{Style.RESET_ALL} {Style.RESET_ALL}Database updated")
+        log.logInfo("Updated commodity database", "eliteData.database")
 
 async def setup(bot):
-    print("Loaded cog: eliteData")
+    log.logInfo("Loading eliteData", "setup.cogs")
     await bot.add_cog(eliteData(bot))

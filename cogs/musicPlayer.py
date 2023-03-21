@@ -10,6 +10,7 @@ import asyncio
 import time
 from colorama import Fore, Back, Style
 import datetime
+import logFunctions as log
 
 import tracemalloc
 tracemalloc.start()
@@ -308,10 +309,7 @@ class musicPlayer(commands.Cog):
             filePath = rf".\ytData\{url}.webm"
             if not os.path.isfile(filePath):
                 try:
-                    bold = "\033[1m"
-                    normal = "\033[0m"
-                    print(f"{Fore.LIGHTBLACK_EX}{bold}{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}{normal} {Fore.BLUE}{Style.BRIGHT}INFO", end=f"     {Style.RESET_ALL}")
-                    print(f"{normal}{Fore.MAGENTA}Downloading{Style.RESET_ALL} {url}", end=" | ")
+                    log.logInfo(f"Downloading {url}", "musicPlayer.download", end=" | ")
                     yt = YouTube("https://www.youtube.com/watch?v=" + url)
                     yt.streams.filter(only_audio=True, mime_type="audio/webm")[0].download(filename=filePath)
                     self.aviableSongFiles.append(f"{url}.webm")
@@ -341,5 +339,5 @@ class musicPlayer(commands.Cog):
                                 voiceClient.play(source, after=await self.queueManager(guildID, command="next"))
 
 async def setup(bot):
-    print("Loaded cog: musicPlayer")
+    log.logInfo("Loading musicPlayer", "setup.cogs")
     await bot.add_cog(musicPlayer(bot))

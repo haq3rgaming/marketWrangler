@@ -9,8 +9,9 @@ __pycache__/
 #API Keys
 botConfig.py
 
-#Youtube data
-ytData/
+#data
+*.webm
+*.json
 
 # Distribution / packaging
 .Python

@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 
 from botConfig import *
+import logFunctions as log
 
 import tracemalloc
 tracemalloc.start()
@@ -23,7 +24,6 @@ class marketWrangler(commands.Bot):
         super().__init__(command_prefix="!", intents=discord.Intents.all())
     
     async def setup_hook(self):
-        print('Setup hook')
         cogs = [i[:-3] for i in os.listdir(r".\cogs") if i.endswith(".py")]
         for cog in cogs: await wrangler.load_extension(f"cogs.{cog}")
 

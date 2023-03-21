@@ -2,11 +2,13 @@ from discord.ext import commands
 import os
 from botConfig import *
 
+import logFunctions as log
+
 import tracemalloc
 tracemalloc.start()
 
 async def setup(bot):
-    print("Loaded cog: cogTools")
+    log.logInfo("Loading cogTools", "setup.cogs")
     await bot.add_cog(cogTools(bot))
 
 class cogTools(commands.Cog):
