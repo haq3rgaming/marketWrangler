@@ -59,6 +59,12 @@
             "price": 469562,
             "station": "Lyne Vision",
             "system": "Nyalayan"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 465462,
+            "station": "Bohr Gateway",
+            "system": "Mehuenomici"
         }
     ],
     "349": [
@@ -85,6 +91,12 @@
             "price": 679878,
             "station": "Stross Hub",
             "system": "Xinca"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 378369,
+            "station": "Abe Dock",
+            "system": "Shapsugabus"
         }
     ],
     "348": [
@@ -105,6 +117,12 @@
             "price": 557295,
             "station": "Stross Hub",
             "system": "Xinca"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 492431,
+            "station": "Abe Dock",
+            "system": "Shapsugabus"
         }
     ],
     "347": [
@@ -133,7 +151,7 @@
             "system": "Kokary"
         },
         {
-            "timestamp": 1679407104,
+            "timestamp": 1679469631,
             "price": 508749,
             "station": "Faraday Enterprise",
             "system": "Kokary"
@@ -169,6 +187,12 @@
             "price": 648425,
             "station": "Stross Hub",
             "system": "Xinca"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 596086,
+            "station": "Kandrup Station",
+            "system": "Eravapa"
         }
     ],
     "345": [
@@ -207,6 +231,12 @@
             "price": 779210,
             "station": "Kandrup Station",
             "system": "Eravapa"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 776568,
+            "station": "Kandrup Station",
+            "system": "Eravapa"
         }
     ],
     "344": [
@@ -219,6 +249,12 @@
         {
             "timestamp": 1679407104,
             "price": 498950,
+            "station": "Abe Dock",
+            "system": "Shapsugabus"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 499154,
             "station": "Abe Dock",
             "system": "Shapsugabus"
         }
@@ -277,6 +313,12 @@
             "price": 813567,
             "station": "Stross Hub",
             "system": "Xinca"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 292586,
+            "station": "Kippax Foundation",
+            "system": "New Chana"
         }
     ],
     "276": [
@@ -297,11 +339,17 @@
             "price": 349328,
             "station": "Piccard Dock",
             "system": "Orishis"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 344036,
+            "station": "Kippax Foundation",
+            "system": "New Chana"
         }
     ],
     "267": [
         {
-            "timestamp": 1679407104,
+            "timestamp": 1679469631,
             "price": 212685,
             "station": "Ramos's View",
             "system": "LHS 20"
@@ -309,7 +357,7 @@
     ],
     "106": [
         {
-            "timestamp": 1679407104,
+            "timestamp": 1679469631,
             "price": 203388,
             "station": "Ramos's View",
             "system": "LHS 20"
@@ -381,6 +429,12 @@
             "price": 229975,
             "station": "Stross Hub",
             "system": "Xinca"
+        },
+        {
+            "timestamp": 1679469631,
+            "price": 217952,
+            "station": "Guth Vision",
+            "system": "Lescherty"
         }
     ]
 }

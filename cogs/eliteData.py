@@ -23,7 +23,6 @@ selectOptions.insert(0, discord.SelectOption(label="All", value="all"))
 
 plt.rcParams["figure.figsize"] = [7.5, 5]
 plt.rcParams["figure.autolayout"] = True
-plt.grid(True)
 xfmt = df("%H:00")
 xfml = ml(interval=60)
 plotFont = {"family": "Consolas", "size": 14}
@@ -71,11 +70,66 @@ class database(object):
     def exists(self, key):
         return key in self.database.keys()
 
+class commodityTableView(View):
+    def __init__(self, createTableFromCommodityData, latestUpdate):
+        super().__init__()
+        self.add_item(commodityTableSelect(
+            options=selectOptions,
+            placeholder="Select a commodity",
+            max_values=len(aviableCommodities),
+            createTableFromCommodityData=createTableFromCommodityData,
+            latestUpdate=latestUpdate
+        ))
+
+class commodityTableSelect(Select):
+    def __init__(self, createTableFromCommodityData, latestUpdate, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.callback = self.commoditySelectCallback
+        self.createTableFromCommodityData = createTableFromCommodityData
+        self.latestUpdate = latestUpdate
+
+    async def commoditySelectCallback(self, interaction):
+            await interaction.response.defer()
+            if len(self.values) == 1 and self.values[0] == "all":
+                selectedResources = aviableCommodities.keys()
+            else:
+                selectedResources = self.values
+                if "all" in selectedResources: selectedResources.remove("all")
+
+            updateTime = time.strftime("%H:%M:%S %d-%m-%Y", time.localtime(self.latestUpdate))
+            dataTable = self.createTableFromCommodityData(selectedResources)
+            await interaction.edit_original_response(content=f"```{dataTable}\n   Data updated at: {updateTime}```", embed=None, view=None)
+
+class commodityGraphView(View):
+    def __init__(self, createGraphFromCommodityData):
+        super().__init__()
+        selectOptions.pop(0)
+        self.add_item(commodityGraphSelect(
+            options=selectOptions,
+            placeholder="Select a commodity",
+            max_values=len(aviableCommodities),
+            createGraphFromCommodityData = createGraphFromCommodityData
+        ))
+
+class commodityGraphSelect(Select):
+    def __init__(self, createGraphFromCommodityData, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.callback = self.graphSelectCallback
+        self.createGraphFromCommodityData = createGraphFromCommodityData
+    
+    async def graphSelectCallback(self, interaction):
+        await interaction.response.defer()
+        selectedResources = self.values
+        await interaction.edit_original_response(content="Generating graph...", embed=None, view=None)
+        graphImage = self.createGraphFromCommodityData(selectedResources)
+        graphFile = discord.File(graphImage, filename="graph.png")
+        await interaction.edit_original_response(content=None, embed=None, view=None, attachments=[graphFile])
+
 class eliteData(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         self.mainDatabase = database(r"database\main.json")
-        self.updateCommodityDatabase.start()
+        #self.updateCommodityDatabase.start()
         self.updating = False
         self.latestUpdate = 0
         self.guildInfoDatabase = database(r"database\guildInfo.json")
@@ -113,16 +167,24 @@ class eliteData(commands.Cog):
     
     def createTableFromCommodityData(self, selectedResources):
         headers = ["Name", "Price", "Station", "System"]
+        data = []
+        for id in selectedResources:
+            name = aviableCommodities[id]
+            record = self.mainDatabase.getLatest(id)[0]
+            price, station, system = record["price"], record["station"], record["system"]
+            data.append([name, price, station, system])
         dataTable = t2a.table2ascii(
             header=headers,
-            body=[self.scrapePriceFromEDDB(id) for id in selectedResources],
+            body=data,
             alignments=[0,0,0,0],
         )
         return dataTable
 
     def createGraphFromCommodityData(self, commodities):
+        plt.clf()
         ax = plt.gca()
-
+        plt.grid(True)
+        
         ax.xaxis.set_major_formatter(xfmt)
         #ax.xaxis.set_major_locator(xfml)
         
@@ -168,34 +230,8 @@ class eliteData(commands.Cog):
     @app_commands.command(name="commodity", description="Shows the commodity data from EDDB.IO")
     async def commodity(self, interaction):
         await interaction.response.defer()
-        async def commoditySelectCallback(interaction):
-            await interaction.response.defer()
-            
-            if len(select.values) == 1 and select.values[0] == "all":
-                selectedResources = aviableCommodities.keys()
-            else:
-                selectedResources = select.values
-                if "all" in selectedResources: selectedResources.remove("all")
-
-            updateTime = time.strftime("%H:%M:%S %d-%m-%Y", time.localtime())
-            dataTable = self.createTableFromCommodityData(selectedResources)
-            await interaction.edit_original_response(content=f"```{dataTable}\n   Data updated at: {updateTime}```", embed=None, view=None)
-
-        view = View()
-        select = Select(options=selectOptions, placeholder="Select a commodity", max_values=len(aviableCommodities))
         embed = discord.Embed(title="Select commodities you want data from:", color=0x00ff00)
-        
-        select.callback = commoditySelectCallback
-        view.add_item(select)
-
-        await interaction.edit_original_response(embed=embed, view=view)
-    
-    @commodity.error
-    async def commodity_error(self, interaction, error):
-        if isinstance(error, app_commands.CheckFailure):
-            await interaction.response.send_message("This command is not allowed on this server!", ephemeral=True)
-        else:
-            await interaction.response.send_message("Something went wrong!", ephemeral=True)
+        await interaction.edit_original_response(embed=embed, view=commodityTableView(self.createTableFromCommodityData, self.latestUpdate))
     
     @app_commands.command(name="update", description="Updates the commodity data")
     async def update(self, interaction):
@@ -217,13 +253,6 @@ class eliteData(commands.Cog):
         else:
             await interaction.edit_original_response("No update channel set! Use the `/setupdatechannel` command to set one!")
 
-    @update.error
-    async def update_error(self, interaction, error):
-        if isinstance(error, app_commands.CheckFailure):
-            await interaction.response.send_message("This command is not allowed on this server!", ephemeral=True)
-        else:
-            await interaction.response.send_message("Something went wrong!", ephemeral=True)
-
     @app_commands.command(name="setupdatechannel", description="Sets the channel where the update command will post the data")
     async def setUpdateChannel(self, interaction):
         await interaction.response.defer()
@@ -236,27 +265,9 @@ class eliteData(commands.Cog):
 
     @app_commands.command(name="graph", description="Shows the graph of a commodity/commodities")
     async def graph(self, interaction):
-        async def graphSelectCallback(interaction):
-            await interaction.response.defer()
-            if len(select.values) == 1 and select.values[0] == "all":
-                selectedResources = aviableCommodities.keys()
-            else:
-                selectedResources = select.values
-                if "all" in selectedResources: selectedResources.remove("all")
-            await interaction.edit_original_response(content="Generating graph...", embed=None, view=None)
-            graphImage = self.createGraphFromCommodityData(selectedResources)
-            graphFile = discord.File(graphImage, filename="graph.png")
-            await interaction.edit_original_response(content=None, embed=None, view=None, attachments=[graphFile])
-
         await interaction.response.defer()
-        view = View()
-        select = Select(options=selectOptions, placeholder="Select a commodity", max_values=len(aviableCommodities))
         embed = discord.Embed(title="Select commodities you want data from:", color=0x00ff00)
-        
-        select.callback = graphSelectCallback
-        view.add_item(select)
-
-        await interaction.edit_original_response(embed=embed, view=view)
+        await interaction.edit_original_response(embed=embed, view=commodityGraphView(self.createGraphFromCommodityData))
 
     @tasks.loop(hours=1, reconnect=True)
     async def updateCommodityDatabase(self):
