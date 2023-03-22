@@ -129,7 +129,7 @@ class eliteData(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         self.mainDatabase = database(r"database\main.json")
-        #self.updateCommodityDatabase.start()
+        self.updateCommodityDatabase.start()
         self.updating = False
         self.latestUpdate = 0
         self.guildInfoDatabase = database(r"database\guildInfo.json")
