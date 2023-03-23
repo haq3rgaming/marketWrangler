@@ -65,6 +65,12 @@
             "price": 465462,
             "station": "Bohr Gateway",
             "system": "Mehuenomici"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 457910,
+            "station": "Kandrup Station",
+            "system": "Eravapa"
         }
     ],
     "349": [
@@ -97,6 +103,12 @@
             "price": 378369,
             "station": "Abe Dock",
             "system": "Shapsugabus"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 368654,
+            "station": "Kandrup Station",
+            "system": "Eravapa"
         }
     ],
     "348": [
@@ -123,6 +135,12 @@
             "price": 492431,
             "station": "Abe Dock",
             "system": "Shapsugabus"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 480340,
+            "station": "Kandrup Station",
+            "system": "Eravapa"
         }
     ],
     "347": [
@@ -155,6 +173,12 @@
             "price": 508749,
             "station": "Faraday Enterprise",
             "system": "Kokary"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 501380,
+            "station": "Volterra Horizons",
+            "system": "Mitra"
         }
     ],
     "346": [
@@ -191,6 +215,12 @@
         {
             "timestamp": 1679469631,
             "price": 596086,
+            "station": "Kandrup Station",
+            "system": "Eravapa"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 582443,
             "station": "Kandrup Station",
             "system": "Eravapa"
         }
@@ -237,6 +267,12 @@
             "price": 776568,
             "station": "Kandrup Station",
             "system": "Eravapa"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 754506,
+            "station": "Alvarado Ring",
+            "system": "LHS 3885"
         }
     ],
     "344": [
@@ -257,6 +293,12 @@
             "price": 499154,
             "station": "Abe Dock",
             "system": "Shapsugabus"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 494398,
+            "station": "Volterra Horizons",
+            "system": "Mitra"
         }
     ],
     "343": [
@@ -315,7 +357,7 @@
             "system": "Xinca"
         },
         {
-            "timestamp": 1679469631,
+            "timestamp": 1679563416,
             "price": 292586,
             "station": "Kippax Foundation",
             "system": "New Chana"
@@ -341,7 +383,7 @@
             "system": "Orishis"
         },
         {
-            "timestamp": 1679469631,
+            "timestamp": 1679563416,
             "price": 344036,
             "station": "Kippax Foundation",
             "system": "New Chana"
@@ -353,6 +395,12 @@
             "price": 212685,
             "station": "Ramos's View",
             "system": "LHS 20"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
         }
     ],
     "106": [
@@ -361,6 +409,12 @@
             "price": 203388,
             "station": "Ramos's View",
             "system": "LHS 20"
+        },
+        {
+            "timestamp": 1679563416,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
         }
     ],
     "83": [
@@ -431,7 +485,7 @@
             "system": "Xinca"
         },
         {
-            "timestamp": 1679469631,
+            "timestamp": 1679563416,
             "price": 217952,
             "station": "Guth Vision",
             "system": "Lescherty"

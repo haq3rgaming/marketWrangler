@@ -19,7 +19,6 @@ tracemalloc.start()
 
 aviableCommodities = json.load(open(r"database\commodities.json", "r"))
 selectOptions = [discord.SelectOption(label=aviableCommodities[i], value=i) for i in aviableCommodities.keys()]
-selectOptions.insert(0, discord.SelectOption(label="All", value="all"))
 
 plt.rcParams["figure.figsize"] = [7.5, 5]
 plt.rcParams["figure.autolayout"] = True
@@ -74,9 +73,10 @@ class commodityTableView(View):
     def __init__(self, createTableFromCommodityData, latestUpdate):
         super().__init__()
         self.add_item(commodityTableSelect(
-            options=selectOptions,
+            options=[discord.SelectOption(label="All", value="all"), *selectOptions],
             placeholder="Select a commodity",
-            max_values=len(aviableCommodities),
+            min_values=1,
+            max_values=len(selectOptions),
             createTableFromCommodityData=createTableFromCommodityData,
             latestUpdate=latestUpdate
         ))
@@ -96,18 +96,18 @@ class commodityTableSelect(Select):
                 selectedResources = self.values
                 if "all" in selectedResources: selectedResources.remove("all")
 
-            updateTime = time.strftime("%H:%M:%S %d-%m-%Y", time.localtime(self.latestUpdate))
+            updateTime = time.strftime("%H:%M:%S %d-%m-%Y", self.latestUpdate)
             dataTable = self.createTableFromCommodityData(selectedResources)
-            await interaction.edit_original_response(content=f"```{dataTable}\n   Data updated at: {updateTime}```", embed=None, view=None)
+            await interaction.edit_original_response(content=f"```{dataTable}\n  Data updated at: {updateTime}```", embed=None, view=None)
 
 class commodityGraphView(View):
     def __init__(self, createGraphFromCommodityData):
         super().__init__()
-        selectOptions.pop(0)
         self.add_item(commodityGraphSelect(
             options=selectOptions,
             placeholder="Select a commodity",
-            max_values=len(aviableCommodities),
+            min_values=1,
+            max_values=len(selectOptions),
             createGraphFromCommodityData = createGraphFromCommodityData
         ))
 
@@ -171,7 +171,8 @@ class eliteData(commands.Cog):
         for id in selectedResources:
             name = aviableCommodities[id]
             record = self.mainDatabase.getLatest(id)[0]
-            price, station, system = record["price"], record["station"], record["system"]
+            price = f"{('{:,}'.format(record['price']))} Cr"
+            station, system = record["station"], record["system"]
             data.append([name, price, station, system])
         dataTable = t2a.table2ascii(
             header=headers,
@@ -181,15 +182,14 @@ class eliteData(commands.Cog):
         return dataTable
 
     def createGraphFromCommodityData(self, commodities):
-        plt.clf()
-        ax = plt.gca()
-        plt.grid(True)
+        fig = plt.figure(clear=True, figsize=(7.5, 5), dpi=100)
+        ax = fig.gca()
+        ax.grid(True)
         
         ax.xaxis.set_major_formatter(xfmt)
         #ax.xaxis.set_major_locator(xfml)
         
         #set rotation for x axis
-        #plt.xticks(rotation=90, **{"family": "Consolas", "size": 10})
         plt.xticks(**{"family": "Consolas", "size": 10})
         plt.yticks(**{"family": "Consolas", "size": 10})
 
@@ -205,12 +205,12 @@ class eliteData(commands.Cog):
                 y.append(record["price"])
            
             #add annotations
-            plt.annotate(f"{y[0]} Cr", (x[0], y[0]), **{"family": "Consolas", "size": 10})
-            plt.annotate(f"{y[-1]} Cr", (x[-1], y[-1]), **{"family": "Consolas", "size": 10})
+            #plt.annotate(f"{y[0]} Cr", (x[0], y[0]), **{"family": "Consolas", "size": 10})
+            #plt.annotate(f"{y[-1]} Cr", (x[-1], y[-1]), **{"family": "Consolas", "size": 10})
 
             #plot data
-            plt.plot(x, y, label=aviableCommodities[id])
-            plt.scatter(x, y, s=5)
+            ax.plot(x, y, label=aviableCommodities[id])
+            ax.scatter(x, y, s=5)
 
         #set graph properties
         timeFrom = time.strftime("%d/%m/%Y", time.localtime(min(unixTimeOfData)))
@@ -219,11 +219,11 @@ class eliteData(commands.Cog):
         plt.title("Commodity Prices", **plotFont)
         plt.xlabel(f"Time({timeFrom} to {timeTo})", **plotFont)
         plt.ylabel("Price", **plotFont)
-        plt.legend()
+        ax.legend()
 
         #save graph to buffer
         buf = io.BytesIO()
-        plt.savefig(buf, format="png")
+        fig.savefig(buf, format="png")
         buf.seek(0)
         return buf
 
