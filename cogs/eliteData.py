@@ -31,10 +31,22 @@ class database(object):
         self.databasePath = path
         self.databaseObject = open(self.databasePath, "r")
         self.database = json.load(self.databaseObject)
+        self.latestUpdate = 0
     
     def get(self, key): return self.database[key]
     
     def getLatest(self, key, index=-1): return self.database[key][index:]
+
+    def getLatestByTime(self, key, latestTime = 72):
+        latestTimeGet = self.getLatest(key)[0]["timestamp"] - latestTime * 60 * 60
+        return [i for i in self.database[key] if i["timestamp"] > latestTimeGet]
+
+    def add(self, key, value, replaceIdentical=False):
+        if replaceIdentical:
+            if self.getLatest(key)[0]["price"] == value["price"]:
+                self.setLatest(key, value)
+            else: self.append(key, value)
+        else: self.append(key, value)
 
     def set(self, key, value):
         if key not in self.database.keys(): self.create(key, value)
@@ -57,6 +69,7 @@ class database(object):
         self.databaseObject = open(self.databasePath, "w")
         json.dump(self.database, self.databaseObject, indent=4)
         self.databaseObject.close()
+        self.latestUpdate = time.time()
         if reopen: self.load()
     
     def load(self):
@@ -196,7 +209,8 @@ class eliteData(commands.Cog):
         unixTimeOfData = []
 
         for id in commodities:
-            latestData = self.mainDatabase.getLatest(id, -5)
+            latestData = self.mainDatabase.getLatestByTime(id)
+            print(latestData)
             x, y = [], []
             
             for record in latestData:
@@ -287,11 +301,7 @@ class eliteData(commands.Cog):
             }
 
         #update database
-        for id in aviableCommodities.keys():
-            if self.mainDatabase.getLatest(id)[0]["price"] == updateData[id]["price"]:
-                self.mainDatabase.setLatest(id, updateData[id])
-            else:
-                self.mainDatabase.append(id, updateData[id])
+        for id in aviableCommodities.keys(): self.mainDatabase.add(id, updateData[id], False)
         
         self.latestUpdate = time.localtime()
         self.updating = False
