@@ -62,7 +62,5 @@ async def sync(interaction):
         await interaction.message.add_reaction("✅")
     else: pass
 
-
-
 #run the bot
-wrangler.run(botToken, log_handler=log.logHandler)
+wrangler.run(botToken) #log_handler=log.logHandler

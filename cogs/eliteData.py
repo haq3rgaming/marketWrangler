@@ -8,7 +8,6 @@ import lxml.html
 import json
 import time, datetime
 from botConfig import *
-from colorama import Fore, Back, Style
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter as df, MinuteLocator as ml
 import io
@@ -19,6 +18,7 @@ tracemalloc.start()
 
 aviableCommodities = json.load(open(r"database\commodities.json", "r"))
 selectOptions = [discord.SelectOption(label=aviableCommodities[i], value=i) for i in aviableCommodities.keys()]
+alertOptions = [discord.app_commands.Choice(name=aviableCommodities[i], value=i) for i in aviableCommodities.keys()]
 
 plt.rcParams["figure.figsize"] = [7.5, 5]
 plt.rcParams["figure.autolayout"] = True
@@ -138,14 +138,38 @@ class commodityGraphSelect(Select):
         graphFile = discord.File(graphImage, filename="graph.png")
         await interaction.edit_original_response(content=None, embed=None, view=None, attachments=[graphFile])
 
+class alertMessageView(View):
+    def __init__(self, alertDatabase, commodityID):
+        super().__init__()
+        self.alertDatabase = alertDatabase
+        self.commodityID = commodityID
+
+    @discord.ui.button(label="Keep alert", style=discord.ButtonStyle.gray)
+    async def keepAlert(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.edit_message(view=None)
+
+    @discord.ui.button(label="Dismiss", style=discord.ButtonStyle.gray)
+    async def dismiss(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.edit_message(content=f"Alert for {aviableCommodities[self.commodityID]} dismissed!", embed=None, view=None, delete_after=10)
+        guildAlerts = self.alertDatabase.get(str(interaction.guild.id))
+        del guildAlerts[self.commodityID]
+        self.alertDatabase.set(str(interaction.guild.id), guildAlerts)
+    
+    @discord.ui.button(label="Alert me again", style=discord.ButtonStyle.gray)
+    async def alertAgain(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.edit_message(content=f"Alert for {aviableCommodities[self.commodityID]} has been reset!", embed=None, view=None, delete_after=10)
+
 class eliteData(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
+
         self.mainDatabase = database(r"database\main.json")
-        self.updateCommodityDatabase.start()
+        self.guildInfoDatabase = database(r"database\guildInfo.json")
+        self.alertDatabase = database(r"database\alerts.json")
+        
         self.updating = False
         self.latestUpdate = 0
-        self.guildInfoDatabase = database(r"database\guildInfo.json")
+        self.updateCommodityDatabase.start()
 
         self.edsmDatabaseLink = "https://www.edsm.net/api-v1"
         self.eddbCommodityLink = "https://eddb.io/commodity/"
@@ -209,8 +233,7 @@ class eliteData(commands.Cog):
         unixTimeOfData = []
 
         for id in commodities:
-            latestData = self.mainDatabase.getLatestByTime(id)
-            print(latestData)
+            latestData = self.mainDatabase.getLatestByTime(id, 24)
             x, y = [], []
             
             for record in latestData:
@@ -220,7 +243,7 @@ class eliteData(commands.Cog):
            
             #add annotations
             #plt.annotate(f"{y[0]} Cr", (x[0], y[0]), **{"family": "Consolas", "size": 10})
-            #plt.annotate(f"{y[-1]} Cr", (x[-1], y[-1]), **{"family": "Consolas", "size": 10})
+            plt.annotate(f"{y[-1]} Cr", (x[-1], y[-1]), **{"family": "Consolas", "size": 10})
 
             #plot data
             ax.plot(x, y, label=aviableCommodities[id])
@@ -241,6 +264,24 @@ class eliteData(commands.Cog):
         buf.seek(0)
         return buf
 
+    async def alertChecker(self):
+        for guild in self.alertDatabase.database.keys():
+            for commodity in self.alertDatabase.get(guild).keys():
+                alert = self.alertDatabase.get(guild)[commodity]
+                latestRecord = self.mainDatabase.getLatest(commodity)[0]
+                if latestRecord["price"] >= alert["alertPrice"]:
+                    channelID = self.guildInfoDatabase.get(guild)["updateChannelID"]
+                    channel = self.bot.get_channel(channelID)
+                    embed = discord.Embed(title=f"Alert for {aviableCommodities[commodity]}:", color=0x00ff00)
+                    embed.description = f"Price is now {'{:,}'.format(latestRecord['price'])} Cr\nStation: {latestRecord['station']}\nSystem: {latestRecord['system']}"
+                    embed.set_footer(text=f"Alert set by {self.bot.get_user(alert['alertUserID']).name}")
+                    await channel.send(content=f"Alert <@&{alert['alertRoleID']}>!", embed=embed, view=alertMessageView(self.alertDatabase, commodity))
+
+    @app_commands.command(name="debug", description="Debug command")
+    async def debug(self, interaction):
+        await interaction.response.defer()
+        await interaction.edit_original_response(content="Debugging...", view=alertMessageView(self.alertDatabase, aviableCommodities, "350"))
+
     @app_commands.command(name="commodity", description="Shows the commodity data from EDDB.IO")
     async def commodity(self, interaction):
         await interaction.response.defer()
@@ -256,9 +297,9 @@ class eliteData(commands.Cog):
         #update data
         dataTable = self.createTableFromCommodityData(aviableCommodities.keys())
       
-        if self.guildInfoDatabase.exists(str(interaction.guild_id)):
-            channelID = self.guildInfoDatabase.get(str(interaction.guild_id))["updateChannelID"]
-            messageID = self.guildInfoDatabase.get(str(interaction.guild_id))["updateMessageID"]
+        if self.guildInfoDatabase.exists(str(interaction.guild.id)):
+            channelID = self.guildInfoDatabase.get(str(interaction.guild.id))["updateChannelID"]
+            messageID = self.guildInfoDatabase.get(str(interaction.guild.id))["updateMessageID"]
             channel = self.bot.get_channel(channelID)
             if int(channelID) == interaction.channel_id: await interaction.delete_original_response()
             else: await interaction.edit_original_response(content=f"Data updated in <#{channelID}>!", embed=None, view=None)
@@ -274,7 +315,7 @@ class eliteData(commands.Cog):
         await interaction.channel.send(content="This is the message that will contain update data!")
         async for msg in interaction.channel.history(limit=1):
             msgID = msg.id
-        self.guildInfoDatabase.set(str(interaction.guild_id), {"updateChannelID": interaction.channel_id, "updateMessageID": msgID})
+        self.guildInfoDatabase.set(str(interaction.guild.id), {"updateChannelID": interaction.channel_id, "updateMessageID": msgID})
         await interaction.delete_original_response()
 
     @app_commands.command(name="graph", description="Shows the graph of a commodity/commodities")
@@ -283,8 +324,17 @@ class eliteData(commands.Cog):
         embed = discord.Embed(title="Select commodities you want data from:", color=0x00ff00)
         await interaction.edit_original_response(embed=embed, view=commodityGraphView(self.createGraphFromCommodityData))
 
+    @app_commands.command(name="alert", description="Sets an alert for a commodity")
+    @app_commands.choices(commodity=alertOptions)
+    async def alert(self, interaction, commodity: str, price: int, role: discord.Role):
+        await interaction.response.defer()
+        if not self.alertDatabase.exists(str(interaction.guild.id)): self.alertDatabase.set(str(interaction.guild.id), {})
+        self.alertDatabase.set(str(interaction.guild.id), {commodity: {"alertPrice": price, "alertRoleID": role.id, "alertUserID": interaction.user.id}})
+        await interaction.edit_original_response(content=f"Alert set for {aviableCommodities[commodity]} at {'{:,}'.format(price)} Cr!", embed=None, view=None)
+
     @tasks.loop(hours=1, reconnect=True)
     async def updateCommodityDatabase(self):
+        await self.bot.wait_until_ready()
         if self.updating: return
         self.updating = True
         
@@ -306,6 +356,7 @@ class eliteData(commands.Cog):
         self.latestUpdate = time.localtime()
         self.updating = False
         log.logInfo("Updated commodity database", "eliteData.database")
+        await self.alertChecker()
 
 async def setup(bot):
     log.logInfo("Loading eliteData", "setup.cogs")
