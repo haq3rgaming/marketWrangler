@@ -77,6 +77,72 @@
             "price": 457083,
             "station": "Smith Hub",
             "system": "LP 908-11"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 749647,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
         }
     ],
     "349": [
@@ -121,6 +187,72 @@
             "price": 538101,
             "station": "Stephenson Station",
             "system": "BD+75 58"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 570644,
+            "station": "Herrington City",
+            "system": "Kokoto"
         }
     ],
     "348": [
@@ -159,6 +291,72 @@
             "price": 474488,
             "station": "Fullerton Port",
             "system": "Andhrimi"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 481308,
+            "station": "Rozhdestvensky Hub",
+            "system": "LP 847-48"
         }
     ],
     "347": [
@@ -203,6 +401,72 @@
             "price": 497603,
             "station": "Volterra Horizons",
             "system": "Mitra"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 894601,
+            "station": "Dolgov Port",
+            "system": "Segoveduwa"
         }
     ],
     "346": [
@@ -253,6 +517,72 @@
             "price": 556023,
             "station": "Euclid Dock",
             "system": "5 G. Capricorni"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 595411,
+            "station": "Lem Dock",
+            "system": "Chaac"
         }
     ],
     "345": [
@@ -309,6 +639,72 @@
             "price": 724979,
             "station": "Rubin Orbital",
             "system": "Nyalayan"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 755292,
+            "station": "Sohl Vision",
+            "system": "Thrite"
         }
     ],
     "344": [
@@ -341,6 +737,72 @@
             "price": 493575,
             "station": "Volterra Horizons",
             "system": "Mitra"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 510461,
+            "station": "Lem Dock",
+            "system": "Chaac"
         }
     ],
     "343": [
@@ -409,6 +871,72 @@
             "price": 542378,
             "station": "Stephenson Station",
             "system": "BD+75 58"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 542378,
+            "station": "Cartier City",
+            "system": "Wolf 1453"
         }
     ],
     "276": [
@@ -435,6 +963,72 @@
             "price": 344036,
             "station": "Kippax Foundation",
             "system": "New Chana"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 339168,
+            "station": "Prosperity Core",
+            "system": "Sharru Sector FW-W c1-19"
         }
     ],
     "267": [
@@ -449,6 +1043,72 @@
             "price": 147720,
             "station": "Bitterlin Hospitality Site",
             "system": "Chankun"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 147720,
+            "station": "Bitterlin Hospitality Site",
+            "system": "Chankun"
         }
     ],
     "106": [
@@ -460,6 +1120,72 @@
         },
         {
             "timestamp": 1679647189,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 184730,
+            "station": "Sar's Link",
+            "system": "Luhman 16"
+        },
+        {
+            "timestamp": 1679741802,
             "price": 184730,
             "station": "Sar's Link",
             "system": "Luhman 16"
@@ -543,6 +1269,72 @@
             "price": 493768,
             "station": "Searle Gateway",
             "system": "Nariyot"
+        },
+        {
+            "timestamp": 1679739871,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679739895,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679739917,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679740508,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679740617,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679740656,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679741048,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679741114,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679741331,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679741551,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
+        },
+        {
+            "timestamp": 1679741802,
+            "price": 219292,
+            "station": "Burkin Hub",
+            "system": "Nariansan"
         }
     ]
 }
