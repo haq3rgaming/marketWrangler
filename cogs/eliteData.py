@@ -200,7 +200,7 @@ class eliteData(commands.Cog):
 
         return [displayName, displayPrice, displayStation, displaySystem]
     
-    def createTableFromCommodityData(self: commands.Co, selectedResources: list[str]) -> t2a.table2ascii:
+    def createTableFromCommodityData(self: commands.Cog, selectedResources: list[str]) -> t2a.table2ascii:
         headers = ["Name", "Price", "Station", "System"]
         data = []
         for id in selectedResources:
@@ -216,7 +216,7 @@ class eliteData(commands.Cog):
         )
         return dataTable
 
-    def createGraphFromCommodityData(self: commands.Co, commodities: list[str]) -> io.BytesIO:
+    def createGraphFromCommodityData(self: commands.Cog, commodities: list[str]) -> io.BytesIO:
         fig = plt.figure(clear=True, figsize=(7.5, 5), dpi=100)
         ax = fig.gca()
         ax.grid(True)
