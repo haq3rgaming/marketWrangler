@@ -10,8 +10,8 @@ __pycache__/
 botConfig.py
 
 #data
-*.webm
-*.json
+ytData
+database
 
 # Distribution / packaging
 .Python
