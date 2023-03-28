@@ -157,14 +157,16 @@ class alertMessageView(View):
 
     @discord.ui.button(label="Dismiss", style=discord.ButtonStyle.gray)
     async def dismiss(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.edit_message(content=f"Alert for {aviableCommodities[self.commodityID]} dismissed!", embed=None, view=None, delete_after=10)
+        commodityName = aviableCommodities[self.commodityID] if self.commodityID != "all" else "all commodities"
+        await interaction.response.edit_message(content=f"Alert for {commodityName} dismissed!", embed=None, view=None, delete_after=10)
         guildAlerts = self.alertDatabase.get(str(interaction.guild.id))
         del guildAlerts[self.commodityID]
         self.alertDatabase.set(str(interaction.guild.id), guildAlerts)
     
     @discord.ui.button(label="Alert me again", style=discord.ButtonStyle.gray)
     async def alertAgain(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.edit_message(content=f"Alert for {aviableCommodities[self.commodityID]} has been reset!", embed=None, view=None, delete_after=10)
+        commodityName = aviableCommodities[self.commodityID] if self.commodityID != "all" else "all commodities"
+        await interaction.response.edit_message(content=f"Alert for {commodityName} has been reset!", embed=None, view=None, delete_after=10)
 
 class eliteData(commands.Cog):
     def __init__(self: commands.Cog, bot: commands.Bot) -> None:
@@ -270,14 +272,24 @@ class eliteData(commands.Cog):
         for guild in self.alertDatabase.database.keys():
             for commodity in self.alertDatabase.get(guild).keys():
                 alert = self.alertDatabase.get(guild)[commodity]
-                latestRecord = self.mainDatabase.getLatest(commodity)[0]
-                if latestRecord["price"] >= alert["alertPrice"]:
+                if commodity == "all":
+                    embed = discord.Embed(title=f"Alert for all commodities has been triggered!", color=0x00ff00)
                     channelID = self.guildInfoDatabase.get(guild)["updateChannelID"]
                     channel = self.bot.get_channel(channelID)
-                    embed = discord.Embed(title=f"Alert for {aviableCommodities[commodity]}:", color=0x00ff00)
-                    embed.description = f"Price is now {'{:,}'.format(latestRecord['price'])} Cr\nStation: {latestRecord['station']}\nSystem: {latestRecord['system']}"
+                    for id in aviableCommodities:
+                        latestRecord = self.mainDatabase.getLatest(id)[0]
+                        if latestRecord["price"] >= alert["alertPrice"]:
+                            embed.add_field(name=aviableCommodities[id], value=f"Price is now {'{:,}'.format(latestRecord['price'])} Cr\nStation: {latestRecord['station']}\nSystem: {latestRecord['system']}", inline=False)
                     embed.set_footer(text=f"Alert set by {self.bot.get_user(alert['alertUserID']).name}")
-                    await channel.send(content=f"Alert <@&{alert['alertRoleID']}>!", embed=embed, view=alertMessageView(self.alertDatabase, commodity))
+                else:
+                    latestRecord = self.mainDatabase.getLatest(commodity)[0]
+                    if latestRecord["price"] >= alert["alertPrice"]:
+                        channelID = self.guildInfoDatabase.get(guild)["updateChannelID"]
+                        channel = self.bot.get_channel(channelID)
+                        embed = discord.Embed(title=f"Alert for {aviableCommodities[commodity]} has been triggered!", color=0x00ff00)
+                        embed.add_field(name=aviableCommodities[commodity], value=f"Price is now {'{:,}'.format(latestRecord['price'])} Cr\nStation: {latestRecord['station']}\nSystem: {latestRecord['system']}")
+                        embed.set_footer(text=f"Alert set by {self.bot.get_user(alert['alertUserID']).name}")
+                await channel.send(content=f"Alert <@&{alert['alertRoleID']}>!", embed=embed, view=alertMessageView(self.alertDatabase, commodity))
 
     @app_commands.command(name="debug", description="Debug command")
     @isApprovedGuild()
@@ -328,12 +340,13 @@ class eliteData(commands.Cog):
         await interaction.edit_original_response(embed=embed, view=commodityGraphView(createGraphFromCommodityData=self.createGraphFromCommodityData, hours=hours))
 
     @app_commands.command(name="alert", description="Sets an alert for a commodity")
-    @app_commands.choices(commodity=alertOptions)
+    @app_commands.choices(commodity=[discord.app_commands.Choice(name="All", value="all"),*alertOptions])
     async def alert(self: commands.Cog, interaction: discord.Interaction, commodity: str, price: int, role: discord.Role) -> None:
         await interaction.response.defer()
+        commodityName =  aviableCommodities[commodity] if commodity != "all" else "all commodities"
         if not self.alertDatabase.exists(str(interaction.guild.id)): self.alertDatabase.set(str(interaction.guild.id), {}); print("new guild")
         self.alertDatabase.appendDict(str(interaction.guild.id), commodity, {"alertPrice": price, "alertRoleID": role.id, "alertUserID": interaction.user.id})
-        await interaction.edit_original_response(content=f"Alert set for {aviableCommodities[commodity]} at {'{:,}'.format(price)} Cr!", embed=None, view=None)
+        await interaction.edit_original_response(content=f"Alert set for {commodityName} at {'{:,}'.format(price)} Cr!", embed=None, view=None)
     
     @app_commands.command(name="removealert", description="Removes an alert for a commodity")
     @app_commands.choices(commodity=alertOptions)
