@@ -264,7 +264,7 @@ class eliteData(commands.Cog):
 
         #save graph to buffer
         buf = io.BytesIO()
-        fig.savefig(buf, format="png")
+        fig.savefig(buf, format="png", dpi=300)
         buf.seek(0)
         return buf
 
