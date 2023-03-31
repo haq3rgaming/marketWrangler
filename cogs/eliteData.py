@@ -291,7 +291,6 @@ class eliteData(commands.Cog):
                         embed = discord.Embed(title=f"Alert for {aviableCommodities[commodity]} has been triggered!", color=0x00ff00)
                         embed.add_field(name=aviableCommodities[commodity], value=f"Price is now {'{:,}'.format(latestRecord['price'])} Cr\nStation: {latestRecord['station']}\nSystem: {latestRecord['system']}")
                         embed.set_footer(text=f"Alert set by {self.bot.get_user(alert['alertUserID']).name}")
-                    if embed.fields:
                         await channel.send(content=f"Alert <@&{alert['alertRoleID']}>!", embed=embed, view=alertMessageView(self.alertDatabase, commodity))
 
     @app_commands.command(name="debug", description="Debug command")
