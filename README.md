@@ -1,2 +1,1 @@
-# Music Wrangler
-Private music discord bot
+# Market Wrangler
